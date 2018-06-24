@@ -428,6 +428,37 @@ input:checked+.slider:before {
   opacity: 0.5;
 }
 
+#qiniuPrompt {}
+
+#qiniuPrompt input {
+    width: 200px;
+}
+
+#qiniuPrompt>.content {
+    text-align: left;
+    padding: 28px;
+    margin-top: 22px;
+}
+
+#qiniuPrompt>.content p {
+    padding: 0px;
+    margin: 0px;
+}
+
+#qiniuPrompt>.content .title {
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+#qiniuPrompt>.content .label {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+#qiniuPrompt>.content .sublabel {
+    opacity: 0.5;
+}
+
 .button-save {
   background: #50AC50 !important;
   color: #eee !important;

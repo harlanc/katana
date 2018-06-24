@@ -24,6 +24,7 @@ window.$ = window.jQuery = require('../static/js/jquery.min.js')
 require('../static/js/mousetrap.min.js')
 require('../static/js/date.format.min.js')
 
+const con = require('electron').remote.getGlobal('console')
 $('#general').show()
 
 const ipc = require('electron').ipcRenderer
@@ -97,6 +98,23 @@ ipc.on('getOptions', (event, options) => {
   if (options.customService) {
     $('#servicePrompt input[name="resultPath"]').val(options.customService.resultPath)
   }
+
+  if (options.qiniuService) {
+    $('#qiniuPrompt input[name="accessKey"]').val(options.qiniuService.accessKey)
+    $('select[name="uploadService"]').val('qiniu')
+  }
+  if (options.qiniuService) {
+    $('#qiniuPrompt input[name="secretKey"]').val(options.qiniuService.secretKey)
+    $('select[name="uploadService"]').val('qiniu')
+  }
+  if (options.qiniuService) {
+    $('#qiniuPrompt input[name="Scope"]').val(options.qiniuService.Scope)
+    $('select[name="uploadService"]').val('qiniu')
+  }
+  if (options.qiniuService) {
+    $('#qiniuPrompt input[name="defaultDomain"]').val(options.qiniuService.defaultDomain)
+    $('select[name="uploadService"]').val('qiniu')
+  }
 })
 
 ipc.on('showService', (event, current) => {
@@ -130,6 +148,19 @@ $('#servicePrompt button[name="save"]').click(() => {
   $('.backdrop').fadeOut(200)
 })
 
+$('#qiniuPrompt button[name="save"]').click(() => {
+  let accessKey = $('#qiniuPrompt input[name="accessKey"]').val()
+  let secretKey = $('#qiniuPrompt input[name="secretKey"]').val()
+  let Scope = $('#qiniuPrompt input[name="Scope"]').val()
+  let defaultDomain = $('#qiniuPrompt input[name="defaultDomain"]').val()
+
+  if (!accessKey || !secretKey || !Scope || !defaultDomain) return
+
+  ipc.send('updateQiniu', { 'accessKey': accessKey, 'secretKey': secretKey, 'Scope': Scope, 'defaultDomain': defaultDomain })
+
+  $('.backdrop').fadeOut(200)
+})
+
 $('a[href="#check"]').click(() => {
   ipc.send('checkForUpdate')
 })
@@ -145,13 +176,18 @@ $('input[type="checkbox"]').change(function () {
 
 $('select[name="uploadService"]').change(function () {
   let service = $(this).find('option:selected').val()
+    if (!optionsObj.services) optionsObj.services = {}
+    optionsObj.services.uploadService = service
   if (service === 'custom') {
     return (
       showPrompt('#servicePrompt')
     )
+  } else if (service === 'qiniu') {
+    return (
+      showPrompt('#qiniuPrompt')
+    )
   }
-  if (!optionsObj.services) optionsObj.services = {}
-  optionsObj.services.uploadService = service
+
 })
 
 $('select[name="shortenerService"]').change(function () {

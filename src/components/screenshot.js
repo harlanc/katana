@@ -81,7 +81,10 @@ module.exports = class {
 
       let customService = this.options.getOption('customService')
 
-      if (service.substr(0, 4) === 'pomf' || customService) {
+      if (service === 'qiniu') {
+        serviceModule = require(`./services/${service}.js`)
+        serviceModule.qiniuService = this.options.getOption('qiniuService')
+      } else if (service.substr(0, 4) === 'pomf' || customService) {
         service = service.split(':')[1]
         service = config.services['pomf'][service]
 

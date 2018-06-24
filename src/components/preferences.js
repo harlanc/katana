@@ -111,6 +111,10 @@ module.exports = class {
     ipc.on('updateService', (event, service) => {
       this.options.customService = service
     })
+    ipc.on('updateQiniu', (event, service) => {
+      this.options.qiniuService = service
+      console.log('updateQiniu:%j', service)
+    })
 
     ipc.on('log', (event, message) => {
       console.log(message)
