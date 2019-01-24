@@ -98,6 +98,10 @@ module.exports = class {
         options.customService = this.options.customService
       }
 
+      if(this.options.qiniuService){
+        options.qiniuService = this.options.qiniuService
+      }
+
       if (options.history) delete options.history
       if (options.hosts) delete options.hosts
 

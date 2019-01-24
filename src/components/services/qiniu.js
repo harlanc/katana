@@ -18,7 +18,8 @@ module.exports = class {
     const dm = _qiniuService.defaultDomain
 
     var key = path.basename(file)
-    const link = {link: path.join(dm, key)}
+    var mdpath = '![](' + path.join(dm, key) + ')'
+    const link = {link: mdpath}
 
     var mac = new qiniu.auth.digest.Mac(ak, sk)
     var options = {
